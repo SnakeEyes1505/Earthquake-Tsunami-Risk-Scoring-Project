@@ -103,7 +103,7 @@ These charts show that **shallow, strong/severe earthquakes** both:
 
 I project events on the globe to see **where** high-risk earthquakes occur.
 
-SQL: [`sql/04_q2_geopoint_tsunami_rate.sql`](sql/04_q2_geopoint_tsunami_rate.sql)
+SQL: [`sql/04_q2_geopoint_tsunami_rate.sql`](sql/Tsunami_rate_by_geopoint.sql)
 
 ![Geospatial tsunami hotspots](images/Screenshot (30).png)
 
