@@ -138,9 +138,9 @@ seismic network quality:
 - `nst` – number of stations
 - `dmin` – distance to nearest station
 
-SQL: [`sql/06_q4_network_quality_vs_tsunami.sql`](sql/06_q4_network_quality_vs_tsunami.sql)
+SQL: [`sql/06_q4_network_quality_vs_tsunami.sql`](sql/Network_quality_vs_tsunami_rate.sql)
 
-![Network quality vs tsunami rate](images/Network quality vs tsunami rate.png)
+![Network quality vs tsunami rate](images/Network_quality_vs_tsunami_rate.png)
 
 This analysis highlights how **well-instrumented coastal regions** capture more
 tsunami-generating events and helps interpret the risk score in the context of monitoring bias.
