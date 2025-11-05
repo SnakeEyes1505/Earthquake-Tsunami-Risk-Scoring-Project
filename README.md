@@ -87,7 +87,7 @@ SQL: [`sql/03_q1_tsunami_risk_factors.sql`](sql/Tsunami_prediction_&_risk_factor
 
 **Counts by class**
 
-![Tsunami prediction & risk factors – counts](images/Tsunami prediction & risk factors 2.png)
+![Tsunami prediction & risk factors – counts](images/Tsunami_prediction_&_risk_factors_2.png)
 
 **Tsunami rate and average risk score by class**
 
