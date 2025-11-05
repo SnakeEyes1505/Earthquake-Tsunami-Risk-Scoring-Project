@@ -91,7 +91,7 @@ SQL: [`sql/03_q1_tsunami_risk_factors.sql`](sql/Tsunami_prediction_&_risk_factor
 
 **Tsunami rate and average risk score by class**
 
-![Tsunami prediction & risk factors – rate & score](images/Tsunami prediction & risk factors 1.png)
+![Tsunami prediction & risk factors – rate & score](images/Tsunami_prediction_&_risk_factors_1.png)
 
 These charts show that **shallow, strong/severe earthquakes** both:
 - occur frequently near coasts, and  
