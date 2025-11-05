@@ -50,9 +50,7 @@ These questions drive the structure of the SQL views and queries.
 
 **Goal:** turn the raw CSV into a clean, analysis-ready table in BigQuery.
 
-**SQL:** `sql/01_prepare_cleaned.sql`
-
-Main steps:
+**SQL:**Main steps (see [`sql/Prepare_Phase.sql`](sql/Prepare_Phase.sql)):
 
 - Load the Kaggle earthquake–tsunami dataset into BigQuery:
   - e.g. `tsunami-risk-assessment.tsunami.earthquake_data_tsunami`
