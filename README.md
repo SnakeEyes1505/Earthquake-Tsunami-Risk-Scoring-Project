@@ -195,39 +195,6 @@ The chart below shows, for each risk decile:
 
 ![Tsunami risk score deciles & lift](images/Risk score deciles & lift.png)
 
-Higher deciles have higher average risk scores and typically higher tsunami rates,
-showing that the score effectively concentrates high-risk events in the top buckets.
----
-
-## How to run
-
-1. **Load the earthquake dataset into BigQuery.**
-   - Create a dataset, e.g. `tsunami`.
-   - Import the Kaggle CSV as `earthquake_data_tsunami`.
-
-2. **Prepare the core table.**
-   - Run [`sql/01_prepare_cleaned.sql`](sql/01_prepare_cleaned.sql)  
-     to create `v_earthquake_cleaned` (filtered, deduplicated, with `event_date`).
-
-3. **Create the processed feature view.**
-   - Run [`sql/02_processed_view.sql`](sql/02_processed_view.sql)  
-     to create `v_earthquake_processed` with:
-       - magnitude/depth classes
-       - tsunami risk score
-       - earthquake severity index
-       - normalized magnitude/depth
-
-4. **Run the analysis queries.**
-   - Q1: [`sql/03_q1_tsunami_risk_factors.sql`](sql/03_q1_tsunami_risk_factors.sql)  
-   - Q2: [`sql/04_q2_geopoint_tsunami_rate.sql`](sql/04_q2_geopoint_tsunami_rate.sql)  
-   - Q3: [`sql/05_q3_tsunami_rate_by_year.sql`](sql/05_q3_tsunami_rate_by_year.sql)  
-   - Q4: [`sql/06_q4_network_quality_vs_tsunami.sql`](sql/06_q4_network_quality_vs_tsunami.sql)  
-   - Q5: [`sql/07_q5_risk_score_deciles_lift.sql`](sql/07_q5_risk_score_deciles_lift.sql)
-
-5. **Rebuild or update the charts.**
-   - Export query results to CSV and visualize in Excel / Google Sheets / BI tools.
-   - Images in `images/` are exported from these result sets.
-
 ---
 
 
