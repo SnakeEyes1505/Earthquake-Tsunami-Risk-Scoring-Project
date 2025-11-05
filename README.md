@@ -50,7 +50,7 @@ These questions drive the structure of the SQL views and queries.
 
 **Goal:** turn the raw CSV into a clean, analysis-ready table in BigQuery.
 
-**SQL:**Main steps (see [`sql/Prepare_Phase.sql`](sql/Prepare_Phase.sql)):
+**SQL:** (see [`sql/Prepare_Phase.sql`](sql/Prepare_Phase.sql)):
 
 - Load the Kaggle earthquake–tsunami dataset into BigQuery:
   - e.g. `tsunami-risk-assessment.tsunami.earthquake_data_tsunami`
@@ -61,10 +61,6 @@ These questions drive the structure of the SQL views and queries.
 - Remove duplicates.
 - Build a proper `event_date` from `Year` and `Month`.
 
-Output table:
-
-- `tsunami-risk-assessment.tsunami.v_earthquake_cleaned`
-
 This table is the **core layer** used by all later views.
 
 ---
@@ -73,7 +69,7 @@ This table is the **core layer** used by all later views.
 
 **Goal:** engineer features and risk/severity scores on top of the cleaned data.
 
-**SQL:** `sql/02_processed_view.sql`
+**SQL:**  (see [`sql/Processed_Phase.sql`](sql/Processed_Phase.sql)):
 
 Key features created:
 
