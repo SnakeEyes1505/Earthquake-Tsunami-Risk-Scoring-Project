@@ -149,12 +149,6 @@ tsunami-generating events and helps interpret the risk score in the context of m
 
 ### Tsunami risk scoring pipeline
 
-Input: processed earthquake view in BigQuery  
-(e.g. `tsunami-risk-assessment.tsunami.v_earthquake_processed`)
-
-Output: risk deciles view / table from Q5 query  
-(e.g. `q5_risk_score_deciles_lift`)
-
 The **tsunami risk score** is a hand-crafted index designed to approximate how likely an
 earthquake is to trigger a tsunami, based on physical and observational factors.
 
@@ -180,8 +174,7 @@ In the Q5 analysis this score is:
 - split into 10 **deciles** using `NTILE(10)`,
 - and evaluated via **tsunami rate** and **lift vs overall**.
 
-SQL: see [`sql/07_q5_risk_score_deciles_lift.sql`](sql/07_q5_risk_score_deciles_lift.sql)  
-(and the score definition in [`sql/02_processed_view.sql`](sql/02_processed_view.sql)).
+SQL: see [`sql/07_q5_risk_score_deciles_lift.sql`](sql/Risk_score_deciles_&_lift.sql) 
 
 ### Tsunami risk score distribution
 
@@ -193,10 +186,7 @@ The chart below shows, for each risk decile:
 - `lift_vs_overall` – how many times better than the dataset average the decile is
 - `avg_risk_score` – mean risk score in that decile
 
-![Tsunami risk score deciles & lift](images/Risk score deciles & lift.png)
-
----
-
+![Tsunami risk score deciles & lift](images/Risk_score_deciles_&_lift.png)
 
 
 ---
