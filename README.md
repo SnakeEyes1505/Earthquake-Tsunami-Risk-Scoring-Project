@@ -71,13 +71,168 @@ This table is the **core layer** used by all later views.
 
 **SQL:**  (see [`sql/Processed_Phase.sql`](sql/Processed_Phase.sql)):
 
-Key features created:
+---
 
-- **Magnitude bands**
+### 4. Analyze
 
-  ```sql
-  CASE
-    WHEN magnitude >= 8 THEN 'Severe'
-    WHEN magnitude >= 7 THEN 'Strong'
-    ELSE 'Moderate'
-  END AS magnitude_class
+
+### Tsunami risk by magnitude & depth
+
+To connect the risk score back to physical intuition, I analyze it by **magnitude** and **depth** classes:
+
+- Magnitude classes: `Moderate`, `Strong`, `Severe`
+- Depth classes: `Shallow`, `Intermediate`, `Deep`
+
+SQL: [`sql/03_q1_tsunami_risk_factors.sql`](sql/03_q1_tsunami_risk_factors.sql)
+
+**Counts by class**
+
+![Tsunami prediction & risk factors – counts](images/Tsunami prediction & risk factors 2.png)
+
+**Tsunami rate and average risk score by class**
+
+![Tsunami prediction & risk factors – rate & score](images/Tsunami prediction & risk factors 1.png)
+
+These charts show that **shallow, strong/severe earthquakes** both:
+- occur frequently near coasts, and  
+- have **higher tsunami rates and higher average risk scores**, which validates the scoring logic.
+
+
+
+### Geospatial risk hotspots
+
+I project events on the globe to see **where** high-risk earthquakes occur.
+
+SQL: [`sql/04_q2_geopoint_tsunami_rate.sql`](sql/04_q2_geopoint_tsunami_rate.sql)
+
+![Geospatial tsunami hotspots](images/Screenshot (30).png)
+
+Tsunami-prone events clearly align with the **Pacific Ring of Fire** and major subduction zones.
+
+
+
+### Temporal behaviour of risk
+
+To understand how risk evolves over time, I compute yearly:
+
+- total events
+- tsunami events
+- tsunami rate
+- average magnitude
+- average depth
+
+SQL: [`sql/05_q3_tsunami_rate_by_year.sql`](sql/05_q3_tsunami_rate_by_year.sql)
+
+![Tsunami rate by year](images/Tsunami rate by year.png)
+
+This provides context for the risk score: some years concentrate more high-risk events,
+even if the underlying magnitude/depth distributions stay similar.
+
+
+
+### Network quality and observed risk
+
+While the risk score focuses on earthquake properties, the **observed data** is also influenced by
+seismic network quality:
+
+- `nst` – number of stations
+- `dmin` – distance to nearest station
+
+SQL: [`sql/06_q4_network_quality_vs_tsunami.sql`](sql/06_q4_network_quality_vs_tsunami.sql)
+
+![Network quality vs tsunami rate](images/Network quality vs tsunami rate.png)
+
+This analysis highlights how **well-instrumented coastal regions** capture more
+tsunami-generating events and helps interpret the risk score in the context of monitoring bias.
+
+
+
+### Tsunami risk scoring pipeline
+
+Input: processed earthquake view in BigQuery  
+(e.g. `tsunami-risk-assessment.tsunami.v_earthquake_processed`)
+
+Output: risk deciles view / table from Q5 query  
+(e.g. `q5_risk_score_deciles_lift`)
+
+The **tsunami risk score** is a hand-crafted index designed to approximate how likely an
+earthquake is to trigger a tsunami, based on physical and observational factors.
+
+**Dimensions:**
+
+1. Event energy          (magnitude)
+2. Rupture depth         (shallower = higher risk)
+3. Event significance    (USGS significance score)
+
+The score is computed in the processed view as:
+
+- **Event energy**
+  - Higher magnitude ⇒ more seafloor displacement potential  
+- **Rupture depth**
+  - Uses `1 / (depth + 1)` so **shallow earthquakes** contribute more to the score  
+- **Event significance**
+  - `sig` is scaled down by `/ 1000` and used as a supporting indicator of importance
+
+Each event receives a continuous `tsunami_risk_score`.  
+In the Q5 analysis this score is:
+
+- sorted,
+- split into 10 **deciles** using `NTILE(10)`,
+- and evaluated via **tsunami rate** and **lift vs overall**.
+
+SQL: see [`sql/07_q5_risk_score_deciles_lift.sql`](sql/07_q5_risk_score_deciles_lift.sql)  
+(and the score definition in [`sql/02_processed_view.sql`](sql/02_processed_view.sql)).
+
+### Tsunami risk score distribution
+
+**Deciles & lift**
+
+The chart below shows, for each risk decile:
+
+- `tsunami_rate` – probability of tsunami inside that decile
+- `lift_vs_overall` – how many times better than the dataset average the decile is
+- `avg_risk_score` – mean risk score in that decile
+
+![Tsunami risk score deciles & lift](images/Risk score deciles & lift.png)
+
+Higher deciles have higher average risk scores and typically higher tsunami rates,
+showing that the score effectively concentrates high-risk events in the top buckets.
+---
+
+## How to run
+
+1. **Load the earthquake dataset into BigQuery.**
+   - Create a dataset, e.g. `tsunami`.
+   - Import the Kaggle CSV as `earthquake_data_tsunami`.
+
+2. **Prepare the core table.**
+   - Run [`sql/01_prepare_cleaned.sql`](sql/01_prepare_cleaned.sql)  
+     to create `v_earthquake_cleaned` (filtered, deduplicated, with `event_date`).
+
+3. **Create the processed feature view.**
+   - Run [`sql/02_processed_view.sql`](sql/02_processed_view.sql)  
+     to create `v_earthquake_processed` with:
+       - magnitude/depth classes
+       - tsunami risk score
+       - earthquake severity index
+       - normalized magnitude/depth
+
+4. **Run the analysis queries.**
+   - Q1: [`sql/03_q1_tsunami_risk_factors.sql`](sql/03_q1_tsunami_risk_factors.sql)  
+   - Q2: [`sql/04_q2_geopoint_tsunami_rate.sql`](sql/04_q2_geopoint_tsunami_rate.sql)  
+   - Q3: [`sql/05_q3_tsunami_rate_by_year.sql`](sql/05_q3_tsunami_rate_by_year.sql)  
+   - Q4: [`sql/06_q4_network_quality_vs_tsunami.sql`](sql/06_q4_network_quality_vs_tsunami.sql)  
+   - Q5: [`sql/07_q5_risk_score_deciles_lift.sql`](sql/07_q5_risk_score_deciles_lift.sql)
+
+5. **Rebuild or update the charts.**
+   - Export query results to CSV and visualize in Excel / Google Sheets / BI tools.
+   - Images in `images/` are exported from these result sets.
+
+---
+
+
+
+---
+This repo is part of my learning portfolio in **SQL, BigQuery, and analytical risk scoring**,
+applied to global earthquake–tsunami data.
+
