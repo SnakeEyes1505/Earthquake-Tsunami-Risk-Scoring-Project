@@ -83,7 +83,7 @@ To connect the risk score back to physical intuition, I analyze it by **magnitud
 - Magnitude classes: `Moderate`, `Strong`, `Severe`
 - Depth classes: `Shallow`, `Intermediate`, `Deep`
 
-SQL: [`sql/03_q1_tsunami_risk_factors.sql`](sql/03_q1_tsunami_risk_factors.sql)
+SQL: [`sql/03_q1_tsunami_risk_factors.sql`](sql/Tsunami_prediction_&_risk_factors.sql)
 
 **Counts by class**
 
