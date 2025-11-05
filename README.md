@@ -123,7 +123,7 @@ To understand how risk evolves over time, I compute yearly:
 
 SQL: [`sql/05_q3_tsunami_rate_by_year.sql`](sql/Tsunami_rate_by_year.sql)
 
-![Tsunami rate by year]()
+![Tsunami rate by year](images/Tsunami_rate_by_year.png)
 
 This provides context for the risk score: some years concentrate more high-risk events,
 even if the underlying magnitude/depth distributions stay similar.
