@@ -105,7 +105,7 @@ I project events on the globe to see **where** high-risk earthquakes occur.
 
 SQL: [`sql/04_q2_geopoint_tsunami_rate.sql`](sql/Tsunami_rate_by_geopoint.sql)
 
-![Geospatial tsunami hotspots](images/Screenshot(30).png)
+![Geospatial tsunami hotspots](images/Tsunami_rate_by_geopoint.png)
 
 Tsunami-prone events clearly align with the **Pacific Ring of Fire** and major subduction zones.
 
